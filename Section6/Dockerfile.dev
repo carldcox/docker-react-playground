@@ -1,0 +1,11 @@
+FROM node:current-alpine
+
+WORKDIR '/app'
+
+COPY package.json .
+RUN npm install
+
+#COPY ./node-modules/.bin .
+COPY . .
+
+CMD ["npm","run","start"]
