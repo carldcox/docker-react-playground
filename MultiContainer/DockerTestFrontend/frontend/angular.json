@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "projects": {
+    "webui": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "apps/webui",
+      "sourceRoot": "apps/webui/src",
+      "prefix": "frontend",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/webui",
+            "index": "apps/webui/src/index.html",
+            "main": "apps/webui/src/main.ts",
+            "polyfills": "apps/webui/src/polyfills.ts",
+            "tsConfig": "apps/webui/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/webui/src/favicon.ico", "apps/webui/src/assets"],
+            "styles": ["apps/webui/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/webui/src/environments/environment.ts",
+                  "with": "apps/webui/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "webui:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "webui:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "webui:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/webui/tsconfig.app.json",
+              "apps/webui/tsconfig.spec.json",
+              "apps/webui/tsconfig.editor.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/webui/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/webui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "webui-e2e": {
+      "root": "apps/webui-e2e",
+      "sourceRoot": "apps/webui-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/webui-e2e/cypress.json",
+            "tsConfig": "apps/webui-e2e/tsconfig.e2e.json",
+            "devServerTarget": "webui:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "webui:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/webui-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/webui-e2e/**/*"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/workspace": {
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/cypress": {
+      "cypress-project": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/node": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/nest": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/express": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "webui"
+}

@@ -1,0 +1,18 @@
+#Build phase
+#Get the latest node image from dockerhub
+FROM node:latest
+
+#define our interal working directory
+WORKDIR '/usr/share/app'
+
+#copy over the bare minimum needed to perform a npm install,
+#we do this here because the package.json file is likely to
+#change less frequently, then the application code
+COPY ./package.json .
+#perform the needed setup for our application
+RUN npm install
+
+#copy the remaining files/folders needed by our application
+COPY . .
+#issue out our run command for when we start the container
+CMD ["node","./node_modules/@nrwl/cli/bin/nx","serve","--port","4200","--host=0.0.0.0"]
