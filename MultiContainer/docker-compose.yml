@@ -1,0 +1,20 @@
+version: "3.1"
+services:
+  web:
+    stdin_open: true
+    tty: true
+    build:
+      context: ./DockerTestFrontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /usr/share/app/node_modules
+      - ./DockerTestFrontend:/usr/share/app
+  api:
+    stdin_open: true
+    tty: true
+    build:
+      context: ./DockerTestWebApi
+      dockerfile: Dockerfile.dev
+  nginx:
+    image: nginx
+    
